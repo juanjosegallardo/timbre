@@ -12,6 +12,7 @@ export class HomePage {
   private writer!: any;
   private interval: any;
   public date!:any;
+  private indice_actual:number = -1;
   public horas =[
     {
       hora: new Date(0,0,0,7,0),
@@ -71,14 +72,17 @@ export class HomePage {
     
       this.puerto = port;
       this.puerto.open({baudRate: 9600}).then(()=>{
+
         this.writer = this.puerto.writable.getWriter();
         this.interval = setInterval(()=>{
           this.date = new Date();
+      
           for(let i in this.horas)
           { 
-            if(this.horas[i].hora.getHours()== this.date.getHours() && this.horas[i].hora.getMinutes() == this.date.getMinutes() ){
+            if(this.horas[i].hora.getHours()== this.date.getHours() && this.horas[i].hora.getMinutes() == this.date.getMinutes() && this.indice_actual !=parseInt(i) && this.horas[i].estado ){
               this.activar();
-              console.log("Rinnnnnnn!")
+              console.log("Rinnnnnnn!");
+              this.indice_actual = parseInt(i);
             }
 
           }
@@ -94,5 +98,10 @@ export class HomePage {
     const data = new Uint8Array([100]);
     this.writer.write(data);
   }
-  
+
+  prueba()
+  {
+    const data = new Uint8Array([100]);
+    this.writer.write(data);
+  }
 }
